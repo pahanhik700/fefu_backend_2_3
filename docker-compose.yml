@@ -47,6 +47,7 @@ services:
            - '${ADMINER_PORT: -9090}:8080'
         networks:
            - sail
+
 networks:
     sail:
         driver: bridge
