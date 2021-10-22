@@ -40,6 +40,14 @@ services:
             test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
             retries: 3
             timeout: 5s
+    adminer:
+        image: 'adminer:latest'
+        restart: always
+        ports:
+           - '${ADMINER_PORT: -9090}:8080'
+        networks:
+           - sail
+
 networks:
     sail:
         driver: bridge
