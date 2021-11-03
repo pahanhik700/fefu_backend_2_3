@@ -44,7 +44,7 @@ services:
         image: 'adminer:latest'
         restart: always
         ports:
-           - '${ADMINER_PORT: -9090}:8080'
+           - '${ADMINER_PORT:-9090}:8080'
         networks:
            - sail
 networks:
