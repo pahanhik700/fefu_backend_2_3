@@ -14,6 +14,6 @@ class NewsSeeder extends Seeder
     public function run()
     {
         \App\Models\News::query()->delete();
-        \App\Models\News::factory(random_int(15, 25))->create();
+        \App\Models\News::factory(random_int(20, 30))->create();
     }
 }
