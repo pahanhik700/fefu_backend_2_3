@@ -19,7 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/news', [NewsController::class, 'getList'])->name('news_list');
-
 Route::get('news/{slug}', [NewsController::class, 'getDetails'])->name('news_item');
-
 Route::match(['get', 'post'], '/appeal',AppealController::class)->name('appeal');
+
