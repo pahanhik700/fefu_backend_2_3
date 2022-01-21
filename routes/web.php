@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppealController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,5 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/news', [NewsController::class, 'getList'])->name('news_list');
-
 Route::get('news/{slug}', [NewsController::class, 'getDetails'])->name('news_item');
+Route::match(['get', 'post'], '/appeal',AppealController::class)->name('appeal');
+
