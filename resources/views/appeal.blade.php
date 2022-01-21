@@ -36,12 +36,12 @@
     <div>
         <label>Phone</label>
         <input class="bordered" name="phone" type="text" maxlength="11" value="{{ request()->isMethod('POST') ? old('phone') : '' }}">
-        @if (isset($errors['message']))
-            <p>{{$errors['message']}}</p>
+        @if (isset($errors['phone']))
+            <p>{{$errors['phone']}}</p>
         @endif
     </div>
     <div>
-        <label>Mail</label>
+        <label>E-Mail</label>
         <input class="bordered" name="mail" type="text" maxlength="100" value="{{ request()->isMethod('POST') ? old('mail') : '' }}">
         @if (isset($errors['mail']))
             <p>{{$errors['mail']}}</p>
@@ -49,8 +49,11 @@
     </div>
     <div>
         <label>Message</label>
-        <textarea class="bordered" name="message" maxlength="100" rows="7"></textarea>
+        <textarea class="bordered" name="message" maxlength="100" rows="7" value="{{ request()->isMethod('POST') ? old('mail') : '' }}></textarea>
     </div>
+    @if (isset($errors['message']))
+            <p>{{$errors['message']}}</p>
+    @endif
     <input type="submit" name="Отправить">
 </form>
 </body>
