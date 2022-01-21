@@ -41,6 +41,5 @@ class AppealController extends Controller
         return redirect()
             ->route('appeal')
             ->with('success', 'Appeal created');
-
     }
 }
