@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use function Symfony\Component\String\s;
 use App\Http\Requests\AppealPostRequest;
 
-
 class AppealController extends Controller
 {
     /**
@@ -41,6 +40,5 @@ class AppealController extends Controller
         return redirect()
             ->route('appeal')
             ->with('success', 'Appeal created');
-
     }
 }
