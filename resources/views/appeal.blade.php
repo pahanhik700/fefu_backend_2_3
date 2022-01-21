@@ -49,7 +49,7 @@
     </div>
     <div>
         <label>Message</label>
-        <textarea class="bordered" name="message" maxlength="100" rows="7" value="{{ request()->isMethod('POST') ? old('mail') : '' }}></textarea>
+        <textarea class="bordered" name="message" maxlength="100" rows="7" value="{{ request()->isMethod('POST') ? old('message') : '' }}></textarea>
     </div>
     @if (isset($errors['message']))
             <p>{{$errors['message']}}</p>
