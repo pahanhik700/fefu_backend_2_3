@@ -1,44 +1,68 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http;
 
-use App\Models\Redirect;
-use Closure;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
-class RedirectFromOldSlug
+class Kernel extends HttpKernel
 {
     /**
-     * Handle an incoming request.
+     * The application's global HTTP middleware stack.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * These middleware are run during every request to your application.
+     *
+     * @var array
      */
-    public function handle(Request $request, Closure $next)
-    {
-        $url = parse_url($request->url(), PHP_URL_PATH);
-        $redirect = Redirect::query()
-            ->where('old_slug', $url)
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
-            ->first();
+    protected $middleware = [
+        // \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\TrustProxies::class,
+        \Fruitcake\Cors\HandleCors::class,
+        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\RedirectFromOldSlug::class,
+    ];
 
-        $slug = null;
-        while ($redirect !== null)
-        {
-            $slug = $redirect->new_slug;
-            $redirect = Redirect::query()
-                ->where('old_slug', $slug)
-                ->where('created_at', '>', $redirect->created_at)
-                ->orderByDesc('created_at')
-                ->orderByDesc('id')
-                ->first();
-        }
-        if ($slug !== null) {
-            return redirect($slug);
-        }
+    /**
+     * The application's route middleware groups.
+     *
+     * @var array
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
 
-        return $next($request);
-    }
+        'api' => [
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+    ];
+
+    /**
+     * The application's route middleware.
+     *
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    ];
 }
