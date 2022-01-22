@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use function Symfony\Component\String\s;
 use App\Http\Requests\AppealPostRequest;
 
-
 class AppealController extends Controller
 {
     /**
@@ -21,6 +20,7 @@ class AppealController extends Controller
     {
         return view('appeal');
     }
+  
     public function save(AppealPostRequest $request)
     {
         $validated = $request->validate(
