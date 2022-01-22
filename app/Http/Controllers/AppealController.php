@@ -20,6 +20,7 @@ class AppealController extends Controller
     {
         return view('appeal');
     }
+  
     public function save(AppealPostRequest $request)
     {
         $validated = $request->validate(
